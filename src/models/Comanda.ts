@@ -86,6 +86,13 @@ export class Comanda {
     }
   }
 
+  removerPedido(id: string) {
+    Pedido.removerPedido(id)
+    this.pedidos = this.pedidos.filter((pedido) => pedido.id !== id)
+
+    return this.pedidos
+  }
+
   getContaComanda() {
     return this.conta
   }
@@ -93,32 +100,4 @@ export class Comanda {
   calcularValorConta(total: number, pedido: Pedido) {
     return total + pedido.produto.getPreco()
   }
-
-  // definirCategoriaPedido(pedido: TReqPedido) {
-  // const {categoria, proteina} = pedido.produto
-  // switch (categoria) {
-  //   case 'refeicao':
-  //     pedido as TReqPedidoRefeicao
-  //     new PedidoRefeicao(this.index, this.mesa, pedido.produto, pedido.observacoes, pedido.proteina,)
-  //     break
-  //   default:
-  //     new Pedido(this.index, this.mesa, pedido.produto, pedido.observacoes)
-  // }
-  // }
-
-  // registrarPedidos(pedidos: TReqPedido[]) {
-  // const classPedidosArray: Pedido[] = []
-  // pedidos.forEach((pedido) => {
-  //   const { produto, observacoes } = pedido
-  //   const pedidoPorBotar = this.definirCategoriaPedido(pedido)
-  //   const pedidoPorAdicionar = new Pedido(
-  //     this.index,
-  //     this.mesa,
-  //     produto,
-  //     observacoes
-  //   )
-  //   classPedidosArray.push(pedidoPorAdicionar)
-  // }
-  // )
-  // }
 }

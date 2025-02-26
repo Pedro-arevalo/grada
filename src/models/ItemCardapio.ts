@@ -1,8 +1,13 @@
+export interface IItemPorCategoria {
+  id: string
+  nome: string
+}
+
 export class ItemCardapio {
   static instancias: ItemCardapio[] = []
-  static proteinas: string[] = []
-  static saboresSuco: string[] = []
-  static acompanhamentos: string[] = []
+  static proteinas: IItemPorCategoria[] = []
+  static saboresSuco: IItemPorCategoria[] = []
+  static acompanhamentos: IItemPorCategoria[] = []
 
   public id: string
   public estaDisponivel: boolean = true
@@ -14,21 +19,17 @@ export class ItemCardapio {
     ItemCardapio.instancias.push(this)
 
     this.id = this.nome + Math.random().toString()
+
     this.atualizarListaDisponiveis()
-    // switch (this.categoria) {
-    //   case:
-    // }
-    // if (this.categoria === 'proteina' && this.estaDisponivel)
-    //   ItemCardapio.proteinas.push(this.nome)
-    // if (this.categoria === 'acompanhamento' && this.estaDisponivel)
-    //   ItemCardapio.acompanhamentos.push(this.nome)
-    // if (this.categoria === 'saborSuco' && this.estaDisponivel)
-    //   ItemCardapio.saboresSuco.push(this.nome)
   }
   static getTodasInstancias() {
     return ItemCardapio.instancias
   }
-
+  static removerItem(id: string) {
+    ItemCardapio.instancias = ItemCardapio.instancias.filter(
+      (item) => item.id !== id
+    )
+  }
   static getProteinas() {
     return ItemCardapio.proteinas
   }
@@ -39,28 +40,39 @@ export class ItemCardapio {
     return ItemCardapio.saboresSuco
   }
 
+  getId() {
+    return this.id
+  }
+  getItemParaPedido() {
+    return { id: this.id, nome: this.nome }
+  }
+
+  getCategoria() {
+    return this.categoria
+  }
+
   atualizarListaDisponiveis() {
-    const { nome, categoria, estaDisponivel } = this
+    const { id, nome, categoria, estaDisponivel } = this
     switch (categoria) {
       case 'proteina':
         estaDisponivel
-          ? ItemCardapio.proteinas.push(nome)
+          ? ItemCardapio.proteinas.push({ id, nome })
           : (ItemCardapio.proteinas = ItemCardapio.proteinas.filter(
-              (proteina) => proteina !== nome
+              (proteina) => proteina.id !== id
             ))
         break
       case 'acompanhamento':
         estaDisponivel
-          ? ItemCardapio.acompanhamentos.push(nome)
+          ? ItemCardapio.acompanhamentos.push({ id, nome })
           : (ItemCardapio.acompanhamentos = ItemCardapio.acompanhamentos.filter(
-              (acomp) => acomp !== nome
+              (acomp) => acomp.id !== id
             ))
         break
       case 'saborSuco':
         estaDisponivel
-          ? ItemCardapio.saboresSuco.push(nome)
+          ? ItemCardapio.saboresSuco.push({ id, nome })
           : (ItemCardapio.saboresSuco = ItemCardapio.saboresSuco.filter(
-              (sabor) => sabor !== nome
+              (sabor) => sabor.id !== id
             ))
         break
     }
@@ -69,37 +81,5 @@ export class ItemCardapio {
   alternarDisponibilidade() {
     this.estaDisponivel = !this.estaDisponivel
     this.atualizarListaDisponiveis()
-  }
-
-  // static adaptarLista(itemCardapio: ItemCardapio) {
-  //   if (itemCardapio.estaDisponivel) {
-  //     ItemCardapio.proteinas.push(itemCardapio.nome)
-  //   } else {
-  //     ItemCardapio.proteinas.remove(itemCardapio.nome)
-  //   }
-  // }
-  // static adaptar() {
-  //   const proteinasFiltradas = ItemCardapio.instancias.filter((itemCardapio) => {
-  //     return itemCardapio.estaDisponivel && itemCardapio.categoria === 'proteina'
-  //   })
-  //   const saboresSucoFiltrados = ItemCardapio.instancias.filter((itemCardapio) => {
-  //     return itemCardapio.estaDisponivel && itemCardapio.categoria === 'saborSuco'
-  //   })
-  //   const acompFiltrados = ItemCardapio.instancias.filter((itemCardapio) => {
-  //     return itemCardapio.estaDisponivel && itemCardapio.categoria === 'acompanhamento'
-  //   })
-  //   ItemCardapio.proteinas = proteinasFiltradas.map((itemCardapio) => {
-  //     return itemCardapio.nome
-  //   })
-  //   ItemCardapio.acompanhamentos = acompFiltrados.map((itemCardapio) => {
-  //     return itemCardapio.nome
-  //   })
-  //   ItemCardapio.saboresSuco = saboresSucoFiltrados.map((itemCardapio) => {
-  //     return itemCardapio.nome
-  //   })
-  // }
-
-  getCategoria() {
-    return this.categoria
   }
 }

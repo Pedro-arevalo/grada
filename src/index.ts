@@ -16,80 +16,6 @@ import { Acompanhamento } from './models/Acompanhamento'
 const app = express()
 const port = 3000
 
-// let novoCardapio = new Cardapio('cardapio', new Date(), [])
-// novoCardapio.criarNovoItemCardapio('Bife acebolado', 'proteina', true)
-// console.log(novoCardapio.getListaItensCardapio())
-// let novoProduto = new Produto('prod2', 'sobremesa', 'picolé', 4, true)
-// console.log(Produto.getTodasInstancias())
-
-// const newComanda = new Comanda('usuario', 3, [
-//   { produto: produto3, observacoes: 'bem gelada' },
-//   { produto: produto2, observacoes: 'gelo e limão' },
-// ])
-
-const requisicaoNovaComanda = {
-  usuarioId: 'Pedro2202',
-  mesa: 8,
-  pedidos: [
-    {
-      produto: produto3,
-      observacoes: 'gelo e limão',
-    },
-    {
-      produto: produto4,
-      observaocoes: '',
-    },
-  ],
-  observacoes: 'cliente com pressa',
-}
-const arrozAcomp = new Acompanhamento('arroz', false, false)
-const reqPedidos: TPedido[] = [
-  {
-    produto: produto2,
-    observacoes: '',
-    tipo: 'refeicao',
-    proteina: 'Bife',
-    acompanhamentos: [arrozAcomp],
-    paraLevar: false,
-  },
-  {
-    produto: produto3,
-    observacoes: '',
-    tipo: 'geral',
-  },
-  {
-    produto: produto5,
-    tipo: 'suco',
-    observacoes: '',
-    sabor: 'laranja',
-    qtdadeAcucar: 'menos',
-    qtdadeGelo: 'regular',
-    paraLevar: false,
-  },
-]
-const reqNovaComanda = {
-  usuarioId: 'Pedro2202',
-  mesa: 3,
-  pedidos: reqPedidos,
-}
-const novaComanda = new Comanda(
-  reqNovaComanda.usuarioId,
-  reqNovaComanda.mesa,
-  reqNovaComanda.pedidos,
-  ''
-)
-
-// console.log(novaComanda)
-
-// console.log(
-//   novaComanda.conta.atualizarFormaPagameto({
-//     especie: 12,
-//     cartaoCredito: 10,
-//     cartaoDebito: 6,
-//     pix: 8,
-//   })
-// )
-// console.log(novaComanda)
 const novoCardapio = new Cardapio([
   {
     nome: 'Bife acebolado',
@@ -108,33 +34,64 @@ const novoCardapio = new Cardapio([
     categoria: 'proteina',
   },
 ])
-// console.log(novoCardapio.getListaItensCardapio())
-console.log(ItemCardapio.getTodasInstancias())
-console.log({
-  proteinas: ItemCardapio.getProteinas(),
-  acompanhamentos: ItemCardapio.getAcompanhamentos(),
-  saboresSuco: ItemCardapio.getSaboresSuco(),
-})
 
-novoCardapio.alternarDisponibilidadeItemCardapio('Laranja')
-novoCardapio.alternarDisponibilidadeItemCardapio('Bife acebolado')
+novoCardapio.removerItemCardapio(ItemCardapio.getTodasInstancias()[3].getId())
+console.log(novoCardapio.getListaItensCardapio())
 
-console.log(ItemCardapio.getTodasInstancias())
-console.log({
-  proteinas: ItemCardapio.getProteinas(),
-  acompanhamentos: ItemCardapio.getAcompanhamentos(),
-  saboresSuco: ItemCardapio.getSaboresSuco(),
-})
+const item1 = ItemCardapio.getProteinas()[0]
+const itemSuco1 = ItemCardapio.getSaboresSuco()[0]
 
-// const novaComanda = new Comanda(
-//   requisicaoNovaComanda.usuarioId,
-//   requisicaoNovaComanda.mesa,
-//   requisicaoNovaComanda.pedidos,
-//   requisicaoNovaComanda.observacoes
-// )
+// novoCardapio.alternarDisponibilidadeItemCardapio(item1)
+// novoCardapio.alternarDisponibilidadeItemCardapio('Bife acebolado')
 
-// console.log(novaComanda.getComanda())
-// console.log(novaComanda.)
+// console.log(ItemCardapio.getTodasInstancias())
+// console.log({
+//   proteinas: ItemCardapio.getProteinas(),
+//   acompanhamentos: ItemCardapio.getAcompanhamentos(),
+//   saboresSuco: ItemCardapio.getSaboresSuco(),
+// })
+
+let arrozAcomp = new Acompanhamento('arroz', false, false)
+const reqPedidos: TPedido[] = [
+  {
+    produto: produto2,
+    observacoes: '',
+    tipo: 'refeicao',
+    proteina: item1,
+    acompanhamentos: [arrozAcomp],
+    paraLevar: false,
+  },
+  {
+    produto: produto3,
+    observacoes: '',
+    tipo: 'geral',
+  },
+  {
+    produto: produto5,
+    tipo: 'suco',
+    observacoes: '',
+    sabor: itemSuco1,
+    qtdadeAcucar: 'menos',
+    qtdadeGelo: 'regular',
+    paraLevar: false,
+  },
+]
+const reqNovaComanda = {
+  usuarioId: 'Pedro2202',
+  mesa: 3,
+  pedidos: reqPedidos,
+}
+const novaComanda = new Comanda(
+  reqNovaComanda.usuarioId,
+  reqNovaComanda.mesa,
+  reqNovaComanda.pedidos,
+  ''
+)
+
+console.log(
+  novaComanda.removerPedido(novaComanda.getPedidosComanda()[1].getId())
+)
+console.log(Pedido.getTodasInstancias())
 
 app.listen(port, () => {
   console.log(`Server successfully running on port ${port}`)

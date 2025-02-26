@@ -33,8 +33,16 @@ export class Cardapio {
     this.listaItensCardapio.push(new ItemCardapio(nome, categoria))
   }
 
-  alternarDisponibilidadeItemCardapio(nomeItem: string) {
-    const item = this.listaItensCardapio.find((item) => item.nome === nomeItem)
+  removerItemCardapio(id: string) {
+    ItemCardapio.removerItem(id)
+    this.listaItensCardapio = this.listaItensCardapio.filter(
+      (item) => item.id !== id
+    )
+    return this.listaItensCardapio
+  }
+
+  alternarDisponibilidadeItemCardapio(idItem: string) {
+    const item = this.listaItensCardapio.find((item) => item.id === idItem)
     item?.alternarDisponibilidade()
   }
 }
