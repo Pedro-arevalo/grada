@@ -29,7 +29,6 @@ export class Cardapio {
 
   criarNovoItemCardapio(itemCardapio: IItemCardapio) {
     const { nome, categoria } = itemCardapio
-    // apenas enquanto não existe integração com banco
     this.listaItensCardapio.push(new ItemCardapio(nome, categoria))
   }
 
@@ -41,8 +40,8 @@ export class Cardapio {
     return this.listaItensCardapio
   }
 
-  alternarDisponibilidadeItemCardapio(idItem: string) {
-    const item = this.listaItensCardapio.find((item) => item.id === idItem)
+  alternarDisponibilidadeItemCardapio(id: string) {
+    const item = this.listaItensCardapio.find((item) => item.id === id)
     item?.alternarDisponibilidade()
   }
 }

@@ -36,8 +36,10 @@ const novoCardapio = new Cardapio([
 ])
 
 novoCardapio.removerItemCardapio(ItemCardapio.getTodasInstancias()[3].getId())
-console.log(novoCardapio.getListaItensCardapio())
 
+novoCardapio.alternarDisponibilidadeItemCardapio(
+  novoCardapio.getListaItensCardapio()[0].getId()
+)
 const item1 = ItemCardapio.getProteinas()[0]
 const itemSuco1 = ItemCardapio.getSaboresSuco()[0]
 
